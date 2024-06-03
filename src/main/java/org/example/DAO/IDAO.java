@@ -1,9 +1,10 @@
 package org.example.DAO;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface IDAO<T> {
-    int create(T t);
+    int create(T t) throws SQLException;
     T find(String id);
     List<T> getAll();
 }

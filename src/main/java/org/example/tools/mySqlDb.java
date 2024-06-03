@@ -3,7 +3,8 @@ package org.example.tools;
 import java.sql.DriverManager;
 
 public class mySqlDb {
-    //singleton connect to mysql
+    //singleton connect to mysqlexit
+    
     private static java.sql.Connection conn = null;
 
     private mySqlDb() {

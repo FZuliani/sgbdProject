@@ -1,13 +1,19 @@
 package org.example.DAO;
 
+import com.mongodb.client.MongoClient;
+import org.example.tools.*;
+
 import java.sql.Connection;
 
 public class DAOFactory {
-    public static Connection connection;
+    public static MongoClient connection;
+    public static Connection sqlConnection;
 
-
-    public static Connection getConnection() {
-        return connection;
+    public static Object getConnection(String type) {
+        if(type.equals("mongo")) {
+            return mongoDb.connect();
+        }
+        return mySqlDb.connect();
     }
 
     public static IDAO create(String type) {

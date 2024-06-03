@@ -9,19 +9,8 @@ import java.sql.Connection;
 
 public class Main {
     public static void main(String[] args) {
-        MongoClient mgdb = mongoDb.connect();
-        Connection msdb = mySqlDb.connect();
 
-        System.out.println("=====================================");
-        //get all db names from mysql
-        try {
-            var stmt = msdb.createStatement();
-            var rs = stmt.executeQuery("SHOW DATABASES");
-            while (rs.next()) {
-                System.out.println(rs.getString(1));
-            }
-        } catch (Exception e) {
-             e.printStackTrace();
-        }
+        IDAO filmDAO = DAOFactory.create("film");
+        System.out.println(filmDAO.find("1"));
     }
 }
