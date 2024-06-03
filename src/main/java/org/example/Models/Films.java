@@ -2,17 +2,19 @@ package org.example.Models;
 
 import java.util.List;
 
-public class Film {
+public class Films {
     private String id;
     private String title;
     private String releaseDate;
     private String duration;
     private String genre;
     private String director;
-    private List<Actor> actors;
+    private List<Actors> actors;
     private String description;
 
-    public Film(String id, String title, String releaseDate, String duration, String genre, String director, List<Actor> actors, String description) {
+    //region Constructors
+
+    public Films(String id, String title, String releaseDate, String duration, String genre, String director, List<Actors> actors, String description) {
         this.id = id;
         this.title = title;
         this.releaseDate = releaseDate;
@@ -23,7 +25,11 @@ public class Film {
         this.description = description;
     }
 
-    //setter and getter
+    public Films() {
+    }
+    //endregion
+
+    //region setter and getter
     public String getId() {
         return id;
     }
@@ -60,10 +66,10 @@ public class Film {
     public void setDirector(String director) {
         this.director = director;
     }
-    public List<Actor> getActors() {
+    public List<Actors> getActors() {
         return actors;
     }
-    public void setActors(List<Actor> actors) {
+    public void setActors(List<Actors> actors) {
         this.actors = actors;
     }
     public String getDescription() {
@@ -72,4 +78,5 @@ public class Film {
     public void setDescription(String description) {
         this.description = description;
     }
+    //endregion
 }

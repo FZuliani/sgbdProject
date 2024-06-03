@@ -1,6 +1,6 @@
 package org.example.DAO;
 
-import org.example.Models.Actor;
+import org.example.Models.Actors;
 
-public class ActorDAO extends DAO<Actor>{
+public class ActorDAO extends DAO<Actors>{
 }

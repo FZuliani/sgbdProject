@@ -1,7 +1,7 @@
 package org.example.DAO;
 
-import org.example.Models.Film;
+import org.example.Models.Films;
 
-public class FilmDAO extends DAO<Film> {
+public class FilmDAO extends DAO<Films> {
 
 }

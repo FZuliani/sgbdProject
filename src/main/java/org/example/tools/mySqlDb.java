@@ -7,7 +7,7 @@ public class mySqlDb {
     private static java.sql.Connection conn = null;
 
     private mySqlDb() {
-        // Exists only to defeat instantiation.
+        // Private uniquement pour éviter l'instanciation.
     }
 
     public static java.sql.Connection connect() {

@@ -8,7 +8,7 @@ public class mongoDb {
     private static MongoClient mg = null;
 
     private mongoDb() {
-        // Exists only to defeat instantiation.
+        // Private uniquement pour éviter l'instanciation.
     }
 
     public static MongoClient connect() {

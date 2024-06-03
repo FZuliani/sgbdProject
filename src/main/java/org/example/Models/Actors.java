@@ -1,16 +1,19 @@
 package org.example.Models;
 
-public class Actor {
+public class Actors {
     private String id;
     private String name;
     private String surname;
     private String birthdate;
 
-    public Actor(String id, String name, String surname, String birthdate) {
+    public Actors(String id, String name, String surname, String birthdate) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.birthdate = birthdate;
+    }
+
+    public Actors() {
     }
 
     //setter and getter
