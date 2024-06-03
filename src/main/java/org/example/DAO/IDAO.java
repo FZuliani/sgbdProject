@@ -1,8 +1,9 @@
 package org.example.DAO;
 
+import java.util.List;
+
 public interface IDAO<T> {
-    void create(T t);
-    T read(String id);
-    void update(T t);
-    void delete(T t);
+    int create(T t);
+    T find(String id);
+    List<T> getAll();
 }

@@ -1,24 +1,21 @@
 package org.example.DAO;
 
+
+import java.util.List;
+
 public abstract class DAO<Object> implements IDAO<Object>{
-    @Override
-    public void create(Object object) {
-        // TODO Auto-generated method stub
+    public int create(Object object) {
+        System.out.println("Creating object");
+        return 0;
     }
 
-    @Override
-    public Object read(String id) {
-        // TODO Auto-generated method stub
+    public Object find(String id) {
+        System.out.println("Finding object");
         return null;
     }
 
-    @Override
-    public void update(Object object) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void delete(Object object) {
-        // TODO Auto-generated method stub
+    public List<Object> getAll() {
+        System.out.println("Getting all objects");
+        return null;
     }
 }

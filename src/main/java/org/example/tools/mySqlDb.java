@@ -13,7 +13,7 @@ public class mySqlDb {
     public static java.sql.Connection connect() {
         if(conn == null) {
             try {
-                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/DB", "root", "password");
+                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
