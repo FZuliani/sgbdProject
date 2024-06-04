@@ -79,4 +79,19 @@ public class Films {
         this.description = description;
     }
     //endregion
+
+
+    @Override
+    public String toString() {
+        return "Films{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", duration='" + duration + '\'' +
+                ", genre='" + genre + '\'' +
+                ", director='" + director + '\'' +
+                ", actors=" + actors +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

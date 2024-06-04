@@ -14,7 +14,7 @@ public class mySqlDb {
     public static java.sql.Connection connect() {
         if(conn == null) {
             try {
-                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "");
+                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Hollywood", "root", "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
