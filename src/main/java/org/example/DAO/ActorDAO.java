@@ -1,6 +1,8 @@
 package org.example.DAO;
 
 import org.example.Models.Actors;
+
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -17,7 +19,8 @@ public class ActorDAO extends DAO<Actors>{
         return actor;
     }
 
-    public List<Actors> findAllByFilmId(String id) {
-       return null;
+    public List<Actors> findAllByFilmId(Array actors) {
+        
+        return null;
     }
 }

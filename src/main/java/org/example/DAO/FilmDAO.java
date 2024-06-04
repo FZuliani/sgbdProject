@@ -17,7 +17,7 @@ public class FilmDAO extends DAO<Films> {
         film.setGenre(rs.getString("genre"));
         film.setDirector(rs.getString("director"));
         film.setDescription(rs.getString("description"));
-        film.setActors(new ActorDAO().findAllByFilmId(film.getId()));
+        film.setActors(new ActorDAO().findAllByFilmId(rs.getArray("actors")));
 
         return film;
     }

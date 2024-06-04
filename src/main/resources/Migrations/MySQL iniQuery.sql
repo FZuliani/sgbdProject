@@ -1,3 +1,5 @@
+CREATE DATABASE Hollywood;
+
 -- Create actors table
 CREATE TABLE actors (
     id INT PRIMARY KEY,
