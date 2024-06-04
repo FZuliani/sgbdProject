@@ -15,7 +15,7 @@ public abstract class DAO<T> implements IDAO<T>{
     private final Type type =  ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     private final String className = type.getTypeName().replace("org.example.Models.", "").toLowerCase();
 
-    private final java.lang.Object connection = DAOFactory.getConnection("");
+    private final java.lang.Object connection = DAOFactory.getConnection("mongo");
     private final Gson gson = new Gson();
     
     public int create(T object) throws SQLException {

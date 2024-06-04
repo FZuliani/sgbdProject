@@ -2,6 +2,7 @@ package org.example.DAO;
 
 import org.example.Models.Actors;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ActorDAO extends DAO<Actors>{
 
@@ -14,5 +15,9 @@ public class ActorDAO extends DAO<Actors>{
         actor.setSurname(rs.getString("surname"));
         actor.setBirthdate(rs.getString("birthdate"));
         return actor;
+    }
+
+    public List<Actors> findAllByFilmId(String id) {
+       return null;
     }
 }
