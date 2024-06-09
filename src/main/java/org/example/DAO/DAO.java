@@ -1,6 +1,7 @@
 package org.example.DAO;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.mongodb.client.MongoClient;
 import org.bson.Document;
 import org.example.tools.mongoDb;
@@ -15,7 +16,7 @@ public abstract class DAO<T> implements IDAO<T>{
     private final Type type =  ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     private final String className = type.getTypeName().replace("org.example.Models.", "").toLowerCase();
 
-    private final java.lang.Object connection = DAOFactory.getConnection("mysql");
+    private final java.lang.Object connection = DAOFactory.getConnection("mongo");
     private final Gson gson = new Gson();
     
     public int create(T object) throws SQLException {
@@ -43,6 +44,9 @@ public abstract class DAO<T> implements IDAO<T>{
             // select from mysql
             try {
                 var rs = ((Connection) connection).createStatement().executeQuery("SELECT * FROM " + className + " WHERE id = " + id + ";");
+                //convert to JSON
+                JsonArray jsonArray = new JsonArray();
+
                 while (rs.next()) {
                     object = parseFromSQL(rs);
                 }
