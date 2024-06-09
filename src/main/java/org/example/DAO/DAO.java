@@ -15,7 +15,7 @@ public abstract class DAO<T> implements IDAO<T>{
     private final Type type =  ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     private final String className = type.getTypeName().replace("org.example.Models.", "").toLowerCase();
 
-    private final java.lang.Object connection = DAOFactory.getConnection("mongo");
+    private final java.lang.Object connection = DAOFactory.getConnection("mysql");
     private final Gson gson = new Gson();
     
     public int create(T object) throws SQLException {
@@ -59,6 +59,11 @@ public abstract class DAO<T> implements IDAO<T>{
     }
 
     public T parseFromSQL(java.sql.ResultSet rs) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public List<T> getManyToMany(String id) {
         return null;
     }
 }

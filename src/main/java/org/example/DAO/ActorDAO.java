@@ -18,9 +18,4 @@ public class ActorDAO extends DAO<Actors>{
         actor.setBirthdate(rs.getString("birthdate"));
         return actor;
     }
-
-    public List<Actors> findAllByFilmId(Array actors) {
-        
-        return null;
-    }
 }
