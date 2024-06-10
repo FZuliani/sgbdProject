@@ -60,7 +60,7 @@ db.films.insertMany([
         duration: "136 min",
         genre: "Action, Science Fiction",
         director: "Lana Wachowski, Lilly Wachowski",
-        actors: [
+        film_actors: [
             {
                 name: "Keanu Reeves",
                 character: "Neo"
@@ -87,7 +87,7 @@ db.films.insertMany([
         duration: "169 min",
         genre: "Adventure, Drama, Science Fiction",
         director: "Christopher Nolan",
-        actors: [
+        film_actors: [
             {
                 name: "Matthew McConaughey",
                 character: "Cooper"

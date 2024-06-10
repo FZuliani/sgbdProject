@@ -3,8 +3,10 @@ package org.example.DAO;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.mongodb.client.MongoClient;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
-import org.example.tools.mongoDb;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 import org.example.tools.mySqlDb;
 
 import java.lang.reflect.Type;
@@ -39,7 +41,8 @@ public abstract class DAO<T> implements IDAO<T>{
         T object = null;
         if(connection.getClass().getName().contains("mongo")) {
             // select from mongo
-            object = gson.fromJson((Objects.requireNonNull(((MongoClient) connection).getDatabase("Hollywood").getCollection(className).find().first())).toJson(), (Type) type);
+            Bson filter = Filters.eq("_id", id);
+            object = gson.fromJson((Objects.requireNonNull(((MongoClient) connection).getDatabase("Hollywood").getCollection(className).find(filter).first()).toJson()), (Type) type);
 
         }
         else if (connection.getClass().getName().contains("sql")) {
@@ -68,11 +71,11 @@ public abstract class DAO<T> implements IDAO<T>{
     }
 
     @Override
-    public List<T> getManyToMany(String id, String tableName, String columnName) {
+    public List<T> getManyToMany(String id, String tableName, String columnFrom, String columnTo) {
         ArrayList<T> object = new ArrayList<T>();
         if(connection.getClass().getName().contains("mongo")) {
-            //get from an intermediate table
-            var rs = ((MongoClient) connection).getDatabase("Hollywood").getCollection(tableName).find(new Document(columnName, id));
+            //get from the inside table
+            var rs = ((MongoClient) connection).getDatabase("Hollywood").getCollection("film").find(new Document(tableName, id));
             for (Document doc : rs) {
                 object.add(gson.fromJson(doc.toJson(), (Type) type));
             }
@@ -80,11 +83,11 @@ public abstract class DAO<T> implements IDAO<T>{
         }
         //get from an intermediate table
         try {
-            var rs = ((Connection) connection).createStatement().executeQuery("SELECT * FROM " + tableName + " WHERE " + columnName + " = " + id + ";");
+            var rs = ((Connection) connection).createStatement().executeQuery("SELECT * FROM " + tableName + " WHERE " + columnFrom + " = " + id + ";");
             //convert to JSON
             JsonArray jsonArray = mySqlDb.convert(rs);
             for (int i = 0; i < jsonArray.size(); i++) {
-                String idActor = jsonArray.get(i).getAsJsonObject().get("actor_id").getAsString();
+                String idActor = jsonArray.get(i).getAsJsonObject().get(columnTo).getAsString();
                 object.add(this.find(idActor));
             }
         } catch (Exception throwables) {
@@ -92,4 +95,5 @@ public abstract class DAO<T> implements IDAO<T>{
         }
         return object;
     }
+
 }
