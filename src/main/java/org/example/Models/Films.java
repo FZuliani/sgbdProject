@@ -84,9 +84,10 @@ public class Films {
     @Override
     public String toString() {
         StringBuilder actorsString = new StringBuilder();
-        for (Actors actor : this.actors) {
-            actorsString.append(actor.toString());
-        }
+        if(this.actors != null)
+            for (Actors actor : this.actors) {
+                actorsString.append(actor.toString());
+            }
         return "Films{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +

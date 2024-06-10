@@ -1,6 +1,12 @@
 package org.example.tools;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+
 
 public class mySqlDb {
     //singleton connect to mysqlexit
@@ -20,5 +26,23 @@ public class mySqlDb {
             }
         }
         return conn;
+    }
+
+    public static JsonArray convert(ResultSet resultSet) throws Exception {
+
+        JsonArray jsonArray = new JsonArray();
+
+        while (resultSet.next()) {
+
+            int columns = resultSet.getMetaData().getColumnCount();
+            JsonObject obj = new JsonObject();
+
+            Gson gson = new Gson();
+            for (int i = 0; i < columns; i++)
+                obj.add(resultSet.getMetaData().getColumnLabel(i + 1).toLowerCase(), gson.toJsonTree(resultSet.getObject(i + 1)));
+
+            jsonArray.add(obj);
+        }
+        return jsonArray;
     }
 }

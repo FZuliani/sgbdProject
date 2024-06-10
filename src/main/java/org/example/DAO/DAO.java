@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.mongodb.client.MongoClient;
 import org.bson.Document;
 import org.example.tools.mongoDb;
+import org.example.tools.mySqlDb;
 
 import java.lang.reflect.Type;
 import java.sql.Connection;
@@ -16,7 +17,7 @@ public abstract class DAO<T> implements IDAO<T>{
     private final Type type =  ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     private final String className = type.getTypeName().replace("org.example.Models.", "").toLowerCase();
 
-    private final java.lang.Object connection = DAOFactory.getConnection("mongo");
+    private final java.lang.Object connection = DAOFactory.getConnection("mysql");
     private final Gson gson = new Gson();
     
     public int create(T object) throws SQLException {
@@ -45,12 +46,11 @@ public abstract class DAO<T> implements IDAO<T>{
             try {
                 var rs = ((Connection) connection).createStatement().executeQuery("SELECT * FROM " + className + " WHERE id = " + id + ";");
                 //convert to JSON
-                JsonArray jsonArray = new JsonArray();
+                JsonArray jsonArray = mySqlDb.convert(rs);
+                object = gson.fromJson(jsonArray.get(0), (Type) type);
 
-                while (rs.next()) {
-                    object = parseFromSQL(rs);
-                }
-            } catch (SQLException throwables) {
+                int test = 0;
+            } catch (Exception throwables) {
                 throwables.printStackTrace();
             }
         }
@@ -67,7 +67,17 @@ public abstract class DAO<T> implements IDAO<T>{
     }
 
     @Override
-    public List<T> getManyToMany(String id) {
-        return null;
+    public List<T> getManyToMany(String id, String tableName, String columnName) {
+        //get from an intermediate table
+        List<T> object = null;
+        try {
+            var rs = ((Connection) connection).createStatement().executeQuery("SELECT * FROM " + tableName + " WHERE " + columnName + " = " + id + ";");
+            //convert to JSON
+            JsonArray jsonArray = mySqlDb.convert(rs);
+            object = gson.fromJson(jsonArray, (Type) type);
+        } catch (Exception throwables) {
+            throwables.printStackTrace();
+        }
+        return object;
     }
 }
