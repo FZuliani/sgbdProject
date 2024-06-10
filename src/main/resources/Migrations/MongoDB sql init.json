@@ -33,7 +33,7 @@ db.films.insertMany([
         duration: "148 min",
         genre: "Science Fiction",
         director: "Christopher Nolan",
-        actors: [
+        film_actors: [
             {
                 name: "Leonardo DiCaprio",
                 character: "Cobb"

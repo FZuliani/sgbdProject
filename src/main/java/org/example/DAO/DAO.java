@@ -18,7 +18,7 @@ public abstract class DAO<T> implements IDAO<T>{
     private final Type type =  ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     private final String className = type.getTypeName().replace("org.example.Models.", "").toLowerCase();
 
-    private final java.lang.Object connection = DAOFactory.getConnection("mysql");
+    private final java.lang.Object connection = DAOFactory.getConnection("mongo");
     private final Gson gson = new Gson();
     
     public int create(T object) throws SQLException {
@@ -69,14 +69,23 @@ public abstract class DAO<T> implements IDAO<T>{
 
     @Override
     public List<T> getManyToMany(String id, String tableName, String columnName) {
-        //get from an intermediate table
         ArrayList<T> object = new ArrayList<T>();
+        if(connection.getClass().getName().contains("mongo")) {
+            //get from an intermediate table
+            var rs = ((MongoClient) connection).getDatabase("Hollywood").getCollection(tableName).find(new Document(columnName, id));
+            for (Document doc : rs) {
+                object.add(gson.fromJson(doc.toJson(), (Type) type));
+            }
+            return object;
+        }
+        //get from an intermediate table
         try {
             var rs = ((Connection) connection).createStatement().executeQuery("SELECT * FROM " + tableName + " WHERE " + columnName + " = " + id + ";");
             //convert to JSON
             JsonArray jsonArray = mySqlDb.convert(rs);
             for (int i = 0; i < jsonArray.size(); i++) {
-                object.add(gson.fromJson(jsonArray.get(i), (Type) type));
+                String idActor = jsonArray.get(i).getAsJsonObject().get("actor_id").getAsString();
+                object.add(this.find(idActor));
             }
         } catch (Exception throwables) {
             throwables.printStackTrace();
