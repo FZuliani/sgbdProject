@@ -12,5 +12,8 @@ public class Main {
 
         IDAO filmDAO = DAOFactory.create("film");
         System.out.println(filmDAO.find("1"));
+        for (Actors actor : ((FilmDAO)filmDAO).getActors("1")) {
+            System.out.println(actor);
+        }
     }
 }

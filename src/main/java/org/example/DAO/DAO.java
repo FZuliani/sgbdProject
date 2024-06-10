@@ -10,6 +10,7 @@ import org.example.tools.mySqlDb;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -69,12 +70,14 @@ public abstract class DAO<T> implements IDAO<T>{
     @Override
     public List<T> getManyToMany(String id, String tableName, String columnName) {
         //get from an intermediate table
-        List<T> object = null;
+        ArrayList<T> object = new ArrayList<T>();
         try {
             var rs = ((Connection) connection).createStatement().executeQuery("SELECT * FROM " + tableName + " WHERE " + columnName + " = " + id + ";");
             //convert to JSON
             JsonArray jsonArray = mySqlDb.convert(rs);
-            object = gson.fromJson(jsonArray, (Type) type);
+            for (int i = 0; i < jsonArray.size(); i++) {
+                object.add(gson.fromJson(jsonArray.get(i), (Type) type));
+            }
         } catch (Exception throwables) {
             throwables.printStackTrace();
         }
