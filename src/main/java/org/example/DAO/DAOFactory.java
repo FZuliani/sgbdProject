@@ -2,8 +2,10 @@ package org.example.DAO;
 import org.example.tools.*;
 
 public class DAOFactory {
+    public static String connectionType = "";
 
     public static Object getConnection(String type) {
+        connectionType = type.toLowerCase();
         if(type.equals("mongo")) {
             return mongoDb.connect();
         }

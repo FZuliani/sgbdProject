@@ -24,6 +24,15 @@ public class FilmDAO extends DAO<Films> {
     }
 
     public List<Actors> getActors(String id) {
-        return DAOFactory.create("actor").getManyToMany(id, "film_actors", "film_id", "actor_id");
+        List<Actors> actors = null;
+        if(DAOFactory.connectionType.equals("mongo")) {
+            actors = DAOFactory.create("actor").getManyToMany(id, "films", "film_id", "actor_id");
+        }
+        else if (DAOFactory.connectionType.equals("mysql")) {
+            actors = DAOFactory.create("actor").getManyToMany(id, "film_actors", "film_id", "actor_id");
+        }
+        return actors;
     }
+
+
 }

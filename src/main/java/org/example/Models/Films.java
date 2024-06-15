@@ -3,14 +3,14 @@ package org.example.Models;
 import java.util.List;
 
 public class Films {
-    private String id;
-    private String title;
-    private String releaseDate;
-    private String duration;
-    private String genre;
-    private String director;
-    private List<Actors> actors;
-    private String description;
+    public String id;
+    public String title;
+    public String releaseDate;
+    public String duration;
+    public String genre;
+    public String director;
+    public List<Actors> actors;
+    public String description;
 
     //region Constructors
 
