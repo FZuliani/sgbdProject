@@ -17,7 +17,7 @@ public class Main {
         //Create a new film
         Films newFilm = new Films(){
             {
-                setId("4");
+                set_id("4");
                 setTitle("The Dark Knight");
                 setReleaseDate("2008-07-18");
                 setDuration("152");

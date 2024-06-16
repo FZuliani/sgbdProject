@@ -3,7 +3,7 @@ package org.example.Models;
 import java.util.List;
 
 public class Films {
-    public String id;
+    public String _id;
     public String title;
     public String releaseDate;
     public String duration;
@@ -14,8 +14,8 @@ public class Films {
 
     //region Constructors
 
-    public Films(String id, String title, String releaseDate, String duration, String genre, String director, List<Actors> actors, String description) {
-        this.id = id;
+    public Films(String _id, String title, String releaseDate, String duration, String genre, String director, List<Actors> actors, String description) {
+        this._id = _id;
         this.title = title;
         this.releaseDate = releaseDate;
         this.duration = duration;
@@ -30,11 +30,11 @@ public class Films {
     //endregion
 
     //region setter and getter
-    public String getId() {
-        return id;
+    public String get_id() {
+        return _id;
     }
-    public void setId(String id) {
-        this.id = id;
+    public void set_id(String _id) {
+        this._id = _id;
     }
     public String getTitle() {
         return title;
@@ -89,7 +89,7 @@ public class Films {
                 actorsString.append(actor.toString());
             }
         return "Films{" +
-                "id='" + id + '\'' +
+                "id='" + _id + '\'' +
                 ", title='" + title + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 ", duration='" + duration + '\'' +

@@ -4,9 +4,9 @@ import org.example.tools.*;
 public class DAOFactory {
     public static String connectionType = "";
 
-    public static Object getConnection(String type) {
-        connectionType = type.toLowerCase();
-        if(type.equals("mongo")) {
+    public static Object getConnection(ConnectionType type) {
+        connectionType = type.toString();
+        if(type == ConnectionType.MONGO) {
             return mongoDb.connect();
         }
         return mySqlDb.connect();
