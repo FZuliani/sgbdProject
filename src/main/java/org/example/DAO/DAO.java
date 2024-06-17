@@ -30,13 +30,13 @@ public abstract class DAO<T> implements IDAO<T>{
 
     public T find(String id) {
         T object = null;
-        if(DAOFactory.connectionType.equalsIgnoreCase("mongo")) {
+        if(DAOFactory.connectionType.equals(ConnectionType.MONGO)) {
             // select from mongo
             Bson filter = Filters.eq("_id", id);
             object = gson.fromJson((Objects.requireNonNull(((MongoClient) connection).getDatabase("Hollywood").getCollection(className).find(filter).first()).toJson()), (Type) type);
 
         }
-        else if(DAOFactory.connectionType.equalsIgnoreCase("mysql")) {
+        else if(DAOFactory.connectionType.equals(ConnectionType.MYSQL)) {
             // select from mysql
             try {
                 var rs = ((Connection) connection).createStatement().executeQuery("SELECT * FROM " + className + " WHERE id = " + id + ";");
@@ -53,8 +53,28 @@ public abstract class DAO<T> implements IDAO<T>{
     }
 
     public List<T> getAll() {
-        System.out.println("Getting all objects");
-        return null;
+        ArrayList<T> object = new ArrayList<T>();
+        if(DAOFactory.connectionType.equals(ConnectionType.MONGO)) {
+            // select from mongo
+            var rs = ((MongoClient) connection).getDatabase("Hollywood").getCollection(className).find();
+            for (Document doc : rs) {
+                object.add(gson.fromJson(doc.toJson(), (Type) type));
+            }
+        }
+        else if(DAOFactory.connectionType.equals(ConnectionType.MYSQL)) {
+            // select from mysql
+            try {
+                var rs = ((Connection) connection).createStatement().executeQuery("SELECT * FROM " + className + ";");
+                //convert to JSON
+                JsonArray jsonArray = mySqlDb.convert(rs);
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    object.add(gson.fromJson(jsonArray.get(i), (Type) type));
+                }
+            } catch (Exception throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return object;
     }
 
     public T parseFromSQL(java.sql.ResultSet rs) throws SQLException {
@@ -64,14 +84,14 @@ public abstract class DAO<T> implements IDAO<T>{
     @Override
     public List<T> getManyToMany(String id, String tableName, String columnFrom, String columnTo) {
         ArrayList<T> object = new ArrayList<T>();
-        if(DAOFactory.connectionType.equalsIgnoreCase("mongo")) {
+        if(DAOFactory.connectionType.equals(ConnectionType.MONGO)) {
             //get from the inside table
             var rs = ((MongoClient) connection).getDatabase("Hollywood").getCollection(tableName).find(Filters.eq("_id", id)).first().getList("film_actors", Document.class);
             for (Document doc : rs) {
                 object.add(gson.fromJson(doc.toJson(), (Type) type));
             }
         }
-        else if(DAOFactory.connectionType.equalsIgnoreCase("mysql")) {
+        else if(DAOFactory.connectionType.equals(ConnectionType.MYSQL)) {
             //get from an intermediate table
             try {
                 var rs = ((Connection) connection).prepareStatement("SELECT * FROM " + tableName + " WHERE " + columnFrom + " = " + id + ";").executeQuery();

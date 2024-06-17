@@ -30,10 +30,10 @@ public class FilmDAO extends DAO<Films> {
 
     public List<Actors> getActors(String id) {
         List<Actors> actors = null;
-        if(DAOFactory.connectionType.equalsIgnoreCase("mongo")) {
+        if(DAOFactory.connectionType.equals(ConnectionType.MONGO)) {
             actors = DAOFactory.create("actor").getManyToMany(id, "films", "film_id", "actor_id");
         }
-        else if (DAOFactory.connectionType.equalsIgnoreCase("mysql")) {
+        else if (DAOFactory.connectionType.equals(ConnectionType.MYSQL)) {
             actors = DAOFactory.create("actor").getManyToMany(id, "film_actors", "film_id", "actor_id");
         }
         return actors;
@@ -41,12 +41,12 @@ public class FilmDAO extends DAO<Films> {
 
     public int create(Films film) throws SQLException {
         int result = 0;
-        if (DAOFactory.connectionType.equalsIgnoreCase("mongo")) {
+        if (DAOFactory.connectionType.equals(ConnectionType.MONGO)) {
             // insert into mongo
             var json = new Gson().toJson(film, Films.class);
             var id = ((MongoClient) DAOFactory.getConnection(ConnectionType.MONGO)).getDatabase("Hollywood").getCollection("films").insertOne(Document.parse(json)).getInsertedId();
             System.out.println("Object created with id: " + id);
-        } else if (DAOFactory.connectionType.equalsIgnoreCase("mysql")) {
+        } else if (DAOFactory.connectionType.equals(ConnectionType.MYSQL)) {
             // insert into mysql
             String query = "INSERT INTO films (id, title, releaseDate, duration, genre, director, description) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try {
